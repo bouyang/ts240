@@ -1,35 +1,22 @@
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  description: string;
+function sqrt(x: number): number {
+  if (x < 0) {
+    throw new Error("Cannot calculate square root of a negative number");
+  }
+  return Math.sqrt(x);
 }
 
-const products: Product[] = [
-  {
-    id: 1,
-    name: "Sample Product",
-    price: 49.99,
-    description: "A sample product for demonstration",
-  },
-];
-
-function updateProduct(
-  productId: number,
-  updatedValues: Partial<Product>
-): void {
-  for (let i = 0; i < products.length; i += 1) {
-    if (products[i].id === productId) {
-      products[i] = {...products[i], ...updatedValues};
+function safeSqrt(x: number): number {
+  try {
+    return sqrt(x);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return -1;
     } else {
-      console.log('Product not found');
+      throw e;
     }
   }
 }
 
-updateProduct(1, {
-  name: "Updated Product Name",
-  price: 99.99,
-});
-
-console.log(products[0]);
+console.log(safeSqrt(4));
+console.log(safeSqrt(-4));
+console.log(safeSqrt('a'));
